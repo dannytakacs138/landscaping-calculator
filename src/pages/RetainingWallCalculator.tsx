@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { Blocks, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { WallInputs } from "@/components/wall/WallInputs";
+import { calculateWallBlocks } from "@/utils/wallCalculations";
 
 const RetainingWallCalculator = () => {
   const navigate = useNavigate();
@@ -15,46 +16,17 @@ const RetainingWallCalculator = () => {
   const [heightUnit, setHeightUnit] = useState("feet");
   const [thicknessUnit, setThicknessUnit] = useState("feet");
 
-  const calculateWallBlocks = () => {
-    // Convert all measurements to feet
-    const lengthInFeet = convertToFeet(parseFloat(length), lengthUnit);
-    const heightInFeet = convertToFeet(parseFloat(height), heightUnit);
-    const thicknessInFeet = convertToFeet(parseFloat(thickness), thicknessUnit);
-
-    // Standard concrete block size (typical 8x8x16 inches)
-    const blockLengthInFeet = 16 / 12; // 16 inches to feet
-    const blockHeightInFeet = 8 / 12; // 8 inches to feet
-    const blockThicknessInFeet = 8 / 12; // 8 inches to feet
-
-    // Calculate number of blocks needed
-    const blocksPerRow = Math.ceil(lengthInFeet / blockLengthInFeet);
-    const numberOfRows = Math.ceil(heightInFeet / blockHeightInFeet);
-    const numberOfLayers = Math.ceil(thicknessInFeet / blockThicknessInFeet);
-
-    return blocksPerRow * numberOfRows * numberOfLayers;
-  };
-
-  const convertToFeet = (value: number, unit: string): number => {
-    switch (unit) {
-      case "inches":
-        return value / 12;
-      case "feet":
-        return value;
-      case "yards":
-        return value * 3;
-      case "centimeters":
-        return value / 30.48;
-      case "meters":
-        return value * 3.28084;
-      default:
-        return value;
-    }
-  };
-
   const totalBlocks = !isNaN(parseFloat(length)) && 
                      !isNaN(parseFloat(height)) && 
                      !isNaN(parseFloat(thickness)) 
-                     ? calculateWallBlocks() 
+                     ? calculateWallBlocks(
+                         parseFloat(length),
+                         parseFloat(height),
+                         parseFloat(thickness),
+                         lengthUnit,
+                         heightUnit,
+                         thicknessUnit
+                       )
                      : 0;
 
   return (
@@ -78,32 +50,19 @@ const RetainingWallCalculator = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <CalculatorInput
-              label="Wall Length"
-              value={length}
-              onChange={setLength}
-              placeholder="Enter length"
-              showUnitSelect
-              selectedUnit={lengthUnit}
-              onUnitChange={setLengthUnit}
-            />
-            <CalculatorInput
-              label="Wall Height"
-              value={height}
-              onChange={setHeight}
-              placeholder="Enter height"
-              showUnitSelect
-              selectedUnit={heightUnit}
-              onUnitChange={setHeightUnit}
-            />
-            <CalculatorInput
-              label="Wall Thickness"
-              value={thickness}
-              onChange={setThickness}
-              placeholder="Enter thickness"
-              showUnitSelect
-              selectedUnit={thicknessUnit}
-              onUnitChange={setThicknessUnit}
+            <WallInputs
+              length={length}
+              height={height}
+              thickness={thickness}
+              lengthUnit={lengthUnit}
+              heightUnit={heightUnit}
+              thicknessUnit={thicknessUnit}
+              onLengthChange={setLength}
+              onHeightChange={setHeight}
+              onThicknessChange={setThickness}
+              onLengthUnitChange={setLengthUnit}
+              onHeightUnitChange={setHeightUnit}
+              onThicknessUnitChange={setThicknessUnit}
             />
             <CalculatorResult
               label="Estimated Blocks Needed"

@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { Button } from "@/components/ui/button";
 import { Calculator, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ShapeSelector } from "@/components/volume/ShapeSelector";
+import { VolumeInputs } from "@/components/volume/VolumeInputs";
+import { calculateCubeVolume, calculateRectangularVolume, calculateCylinderVolume, getUnitCubed } from "@/utils/volumeCalculations";
 
 const VolumeCalculator = () => {
   const navigate = useNavigate();
@@ -26,35 +21,22 @@ const VolumeCalculator = () => {
     switch (shape) {
       case "cube": {
         if (!length) return 0;
-        return Math.pow(parseFloat(length), 3);
+        return calculateCubeVolume(parseFloat(length));
       }
       case "rectangular": {
         if (!length || !width || !height) return 0;
-        return parseFloat(length) * parseFloat(width) * parseFloat(height);
+        return calculateRectangularVolume(
+          parseFloat(length),
+          parseFloat(width),
+          parseFloat(height)
+        );
       }
       case "cylinder": {
         if (!radius || !height) return 0;
-        return Math.PI * Math.pow(parseFloat(radius), 2) * parseFloat(height);
+        return calculateCylinderVolume(parseFloat(radius), parseFloat(height));
       }
       default:
         return 0;
-    }
-  };
-
-  const getUnitCubed = () => {
-    switch (unit) {
-      case "feet":
-        return "cu ft";
-      case "yards":
-        return "cu yd";
-      case "meters":
-        return "cu m";
-      case "inches":
-        return "cu in";
-      case "centimeters":
-        return "cu cm";
-      default:
-        return "units³";
     }
   };
 
@@ -77,80 +59,26 @@ const VolumeCalculator = () => {
             <CardTitle className="text-2xl font-bold">Volume Calculator</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Shape
-              </label>
-              <Select value={shape} onValueChange={setShape}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select shape" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cube">Cube</SelectItem>
-                  <SelectItem value="rectangular">Rectangular Prism</SelectItem>
-                  <SelectItem value="cylinder">Cylinder</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
+            <ShapeSelector value={shape} onValueChange={setShape} />
             <div className="grid gap-6">
-              {shape === "cylinder" ? (
-                <>
-                  <CalculatorInput
-                    label="Radius"
-                    value={radius}
-                    onChange={setRadius}
-                    showUnitSelect
-                    selectedUnit={unit}
-                    onUnitChange={setUnit}
-                  />
-                  <CalculatorInput
-                    label="Height"
-                    value={height}
-                    onChange={setHeight}
-                    showUnitSelect
-                    selectedUnit={unit}
-                    onUnitChange={setUnit}
-                  />
-                </>
-              ) : (
-                <>
-                  <CalculatorInput
-                    label={shape === "cube" ? "Side Length" : "Length"}
-                    value={length}
-                    onChange={setLength}
-                    showUnitSelect
-                    selectedUnit={unit}
-                    onUnitChange={setUnit}
-                  />
-                  {shape === "rectangular" && (
-                    <>
-                      <CalculatorInput
-                        label="Width"
-                        value={width}
-                        onChange={setWidth}
-                        showUnitSelect
-                        selectedUnit={unit}
-                        onUnitChange={setUnit}
-                      />
-                      <CalculatorInput
-                        label="Height"
-                        value={height}
-                        onChange={setHeight}
-                        showUnitSelect
-                        selectedUnit={unit}
-                        onUnitChange={setUnit}
-                      />
-                    </>
-                  )}
-                </>
-              )}
+              <VolumeInputs
+                shape={shape}
+                length={length}
+                width={width}
+                height={height}
+                radius={radius}
+                unit={unit}
+                onLengthChange={setLength}
+                onWidthChange={setWidth}
+                onHeightChange={setHeight}
+                onRadiusChange={setRadius}
+                onUnitChange={setUnit}
+              />
             </div>
-
             <CalculatorResult
               label="Volume"
               value={calculateVolume()}
-              unit={getUnitCubed()}
+              unit={getUnitCubed(unit)}
             />
           </CardContent>
         </Card>
