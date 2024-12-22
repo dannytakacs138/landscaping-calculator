@@ -104,17 +104,17 @@ const GravelCalculator = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <CalculatorResult
-                label="Gravel Needed"
+                label="Gravel Needed (Cubic Yards)"
                 value={calculateCubicYards()}
                 unit="yd³"
               />
               <CalculatorResult
-                label="Gravel Needed"
+                label="Gravel Needed (Cubic Feet)"
                 value={calculateCubicFeet()}
                 unit="ft³"
               />
               <CalculatorResult
-                label="Gravel Needed"
+                label="Gravel Needed (Cubic Meters)"
                 value={calculateCubicMeters()}
                 unit="m³"
               />
