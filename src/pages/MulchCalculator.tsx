@@ -36,6 +36,10 @@ const MulchCalculator = () => {
     return l * w * d;
   };
 
+  const calculateCubicMeters = () => {
+    return calculateCubicFeet() * 0.0283168; // Convert cubic feet to cubic meters
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
       <div className="container max-w-2xl mx-auto">
@@ -103,7 +107,7 @@ const MulchCalculator = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <CalculatorResult
                 label="Mulch Needed (Cubic Yards)"
                 value={calculateCubicYards()}
@@ -113,6 +117,11 @@ const MulchCalculator = () => {
                 label="Mulch Needed (Cubic Feet)"
                 value={calculateCubicFeet()}
                 unit="ft³"
+              />
+              <CalculatorResult
+                label="Mulch Needed (Cubic Meters)"
+                value={calculateCubicMeters()}
+                unit="m³"
               />
             </div>
           </CardContent>

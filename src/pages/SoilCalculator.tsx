@@ -14,7 +14,7 @@ const SoilCalculator = () => {
   const [depth, setDepth] = useState("");
   const [lengthUnit, setLengthUnit] = useState("feet");
   const [widthUnit, setWidthUnit] = useState("feet");
-  const [depthUnit, setDepthUnit] = useState("feet");
+  const [depthUnit, setDepthUnit] = useState("inches");
 
   const calculateCubicYards = () => {
     const l = convertToFeet(parseFloat(length), lengthUnit as any);
@@ -34,6 +34,10 @@ const SoilCalculator = () => {
     if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
     
     return l * w * d;
+  };
+
+  const calculateCubicMeters = () => {
+    return calculateCubicFeet() * 0.0283168; // Convert cubic feet to cubic meters
   };
 
   return (
@@ -60,7 +64,13 @@ const SoilCalculator = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-14 0l2-2m10 0l2 2"
+                  d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 7h16"
                 />
               </svg>
             </div>
@@ -97,7 +107,7 @@ const SoilCalculator = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <CalculatorResult
                 label="Soil Needed (Cubic Yards)"
                 value={calculateCubicYards()}
@@ -107,6 +117,11 @@ const SoilCalculator = () => {
                 label="Soil Needed (Cubic Feet)"
                 value={calculateCubicFeet()}
                 unit="ft³"
+              />
+              <CalculatorResult
+                label="Soil Needed (Cubic Meters)"
+                value={calculateCubicMeters()}
+                unit="m³"
               />
             </div>
           </CardContent>
