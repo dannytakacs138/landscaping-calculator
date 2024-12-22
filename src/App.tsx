@@ -5,6 +5,7 @@ import SoilCalculator from "./pages/SoilCalculator";
 import MulchCalculator from "./pages/MulchCalculator";
 import ConcreteCalculator from "./pages/ConcreteCalculator";
 import PaverCalculator from "./pages/PaverCalculator";
+import RetainingWallCalculator from "./pages/RetainingWallCalculator";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/mulch" element={<MulchCalculator />} />
         <Route path="/concrete" element={<ConcreteCalculator />} />
         <Route path="/pavers" element={<PaverCalculator />} />
+        <Route path="/wall" element={<RetainingWallCalculator />} />
       </Routes>
     </Router>
   );
