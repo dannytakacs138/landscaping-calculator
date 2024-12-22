@@ -8,6 +8,7 @@ import PaverCalculator from "./pages/PaverCalculator";
 import RetainingWallCalculator from "./pages/RetainingWallCalculator";
 import GrassSeedCalculator from "./pages/GrassSeedCalculator";
 import SodCalculator from "./pages/SodCalculator";
+import AreaCalculator from "./pages/AreaCalculator";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/wall" element={<RetainingWallCalculator />} />
         <Route path="/seed" element={<GrassSeedCalculator />} />
         <Route path="/sod" element={<SodCalculator />} />
+        <Route path="/area" element={<AreaCalculator />} />
       </Routes>
     </Router>
   );
