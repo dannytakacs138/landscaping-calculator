@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
-import { Blocks } from "lucide-react";
+import { Blocks, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const RetainingWallCalculator = () => {
+  const navigate = useNavigate();
   const [length, setLength] = useState("");
   const [height, setHeight] = useState("");
   const [thickness, setThickness] = useState("");
@@ -58,6 +60,14 @@ const RetainingWallCalculator = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
       <div className="container max-w-2xl mx-auto">
+        <Button
+          variant="outline"
+          onClick={() => navigate("/")}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Calculators
+        </Button>
         <Card>
           <CardHeader className="text-center">
             <div className="mx-auto w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
