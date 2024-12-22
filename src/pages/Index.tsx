@@ -3,12 +3,12 @@ import {
   Shovel, 
   Trees, 
   Construction, 
-  Grass, 
+  Leaf, 
   Calculator, 
   Box,
   Ruler,
-  Wall,
-  Seedling,
+  Blocks,
+  Sprout,
   Grid
 } from "lucide-react";
 
@@ -46,19 +46,19 @@ const calculators = [
   {
     title: "Retaining Wall Calculator",
     description: "Plan your retaining wall",
-    icon: <Wall />,
+    icon: <Blocks />,
     path: "/wall"
   },
   {
     title: "Grass Seed Calculator",
     description: "Calculate seed requirements",
-    icon: <Seedling />,
+    icon: <Sprout />,
     path: "/seed"
   },
   {
     title: "Sod Calculator",
     description: "Determine sod coverage",
-    icon: <Grass />,
+    icon: <Leaf />,
     path: "/sod"
   },
   {
