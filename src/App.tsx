@@ -3,6 +3,7 @@ import Index from "./pages/Index";
 import GravelCalculator from "./pages/GravelCalculator";
 import SoilCalculator from "./pages/SoilCalculator";
 import MulchCalculator from "./pages/MulchCalculator";
+import ConcreteCalculator from "./pages/ConcreteCalculator";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/gravel" element={<GravelCalculator />} />
         <Route path="/soil" element={<SoilCalculator />} />
         <Route path="/mulch" element={<MulchCalculator />} />
+        <Route path="/concrete" element={<ConcreteCalculator />} />
       </Routes>
     </Router>
   );
