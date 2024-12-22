@@ -5,17 +5,21 @@ import { Card } from "@/components/ui/card";
 import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
+import { convertToFeet } from "@/utils/unitConversions";
 
 const GravelCalculator = () => {
   const navigate = useNavigate();
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [depth, setDepth] = useState("");
+  const [lengthUnit, setLengthUnit] = useState("feet");
+  const [widthUnit, setWidthUnit] = useState("feet");
+  const [depthUnit, setDepthUnit] = useState("inches");
 
   const calculateCubicYards = () => {
-    const l = parseFloat(length);
-    const w = parseFloat(width);
-    const d = parseFloat(depth);
+    const l = convertToFeet(parseFloat(length), lengthUnit as any);
+    const w = convertToFeet(parseFloat(width), widthUnit as any);
+    const d = convertToFeet(parseFloat(depth), depthUnit as any);
     
     if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
     
@@ -24,9 +28,9 @@ const GravelCalculator = () => {
   };
 
   const calculateCubicFeet = () => {
-    const l = parseFloat(length);
-    const w = parseFloat(width);
-    const d = parseFloat(depth);
+    const l = convertToFeet(parseFloat(length), lengthUnit as any);
+    const w = convertToFeet(parseFloat(width), widthUnit as any);
+    const d = convertToFeet(parseFloat(depth), depthUnit as any);
     
     if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
     
@@ -58,21 +62,27 @@ const GravelCalculator = () => {
                 value={length}
                 onChange={setLength}
                 placeholder="Enter length"
-                unit="ft"
+                showUnitSelect
+                selectedUnit={lengthUnit}
+                onUnitChange={setLengthUnit}
               />
               <CalculatorInput
                 label="Width"
                 value={width}
                 onChange={setWidth}
                 placeholder="Enter width"
-                unit="ft"
+                showUnitSelect
+                selectedUnit={widthUnit}
+                onUnitChange={setWidthUnit}
               />
               <CalculatorInput
                 label="Depth"
                 value={depth}
                 onChange={setDepth}
                 placeholder="Enter depth"
-                unit="ft"
+                showUnitSelect
+                selectedUnit={depthUnit}
+                onUnitChange={setDepthUnit}
               />
             </div>
           </Card>

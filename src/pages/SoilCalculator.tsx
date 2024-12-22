@@ -38,11 +38,11 @@ const SoilCalculator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100">
       <div className="container mx-auto py-12 px-4">
         <Button 
           variant="ghost" 
-          className="mb-8 hover:bg-amber-100"
+          className="mb-8 hover:bg-emerald-100"
           onClick={() => navigate("/")}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
