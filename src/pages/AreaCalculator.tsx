@@ -40,22 +40,10 @@ const AreaCalculator = () => {
     }
   };
 
-  const getUnitSquared = () => {
-    switch (unit) {
-      case "feet":
-        return "sq ft";
-      case "yards":
-        return "sq yd";
-      case "meters":
-        return "sq m";
-      case "inches":
-        return "sq in";
-      case "centimeters":
-        return "sq cm";
-      default:
-        return "units²";
-    }
-  };
+  const area = calculateArea();
+  const areaInSquareFeet = area;
+  const areaInSquareYards = area / 9; // Convert from sq ft to sq yd
+  const areaInSquareMeters = area * 0.092903; // Convert from sq ft to sq m
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
@@ -126,11 +114,23 @@ const AreaCalculator = () => {
               )}
             </div>
 
-            <CalculatorResult
-              label="Area"
-              value={calculateArea()}
-              unit={getUnitSquared()}
-            />
+            <div className="grid gap-4">
+              <CalculatorResult
+                label="Area (Square Feet)"
+                value={areaInSquareFeet}
+                unit="sq ft"
+              />
+              <CalculatorResult
+                label="Area (Square Yards)"
+                value={areaInSquareYards}
+                unit="sq yd"
+              />
+              <CalculatorResult
+                label="Area (Square Meters)"
+                value={areaInSquareMeters}
+                unit="sq m"
+              />
+            </div>
           </CardContent>
         </Card>
       </div>

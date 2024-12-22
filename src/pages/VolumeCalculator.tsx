@@ -6,7 +6,7 @@ import { Calculator, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ShapeSelector } from "@/components/volume/ShapeSelector";
 import { VolumeInputs } from "@/components/volume/VolumeInputs";
-import { calculateCubeVolume, calculateRectangularVolume, calculateCylinderVolume, getUnitCubed } from "@/utils/volumeCalculations";
+import { calculateCubeVolume, calculateRectangularVolume, calculateCylinderVolume } from "@/utils/volumeCalculations";
 
 const VolumeCalculator = () => {
   const navigate = useNavigate();
@@ -39,6 +39,10 @@ const VolumeCalculator = () => {
         return 0;
     }
   };
+
+  const volumeInCubicFeet = calculateVolume();
+  const volumeInCubicYards = volumeInCubicFeet / 27; // Convert from cu ft to cu yd
+  const volumeInCubicMeters = volumeInCubicFeet * 0.0283168; // Convert from cu ft to cu m
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
@@ -75,11 +79,23 @@ const VolumeCalculator = () => {
                 onUnitChange={setUnit}
               />
             </div>
-            <CalculatorResult
-              label="Volume"
-              value={calculateVolume()}
-              unit={getUnitCubed(unit)}
-            />
+            <div className="grid gap-4">
+              <CalculatorResult
+                label="Volume (Cubic Feet)"
+                value={volumeInCubicFeet}
+                unit="cu ft"
+              />
+              <CalculatorResult
+                label="Volume (Cubic Yards)"
+                value={volumeInCubicYards}
+                unit="cu yd"
+              />
+              <CalculatorResult
+                label="Volume (Cubic Meters)"
+                value={volumeInCubicMeters}
+                unit="cu m"
+              />
+            </div>
           </CardContent>
         </Card>
       </div>
