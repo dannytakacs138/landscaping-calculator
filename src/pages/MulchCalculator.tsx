@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
@@ -19,12 +19,10 @@ const MulchCalculator = () => {
   const calculateCubicYards = () => {
     const l = convertToFeet(parseFloat(length), lengthUnit as any);
     const w = convertToFeet(parseFloat(width), widthUnit as any);
-    // Convert depth to feet (mulch is often measured in inches for depth)
     const d = convertToFeet(parseFloat(depth), depthUnit as any);
     
     if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
     
-    // Convert to cubic yards (27 cubic feet = 1 cubic yard)
     return (l * w * d) / 27;
   };
 
@@ -39,24 +37,42 @@ const MulchCalculator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100">
-      <div className="container mx-auto py-12 px-4">
-        <Button 
-          variant="ghost" 
-          className="mb-8 hover:bg-emerald-100"
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
+      <div className="container max-w-2xl mx-auto">
+        <Button
+          variant="outline"
           onClick={() => navigate("/")}
+          className="mb-6"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Calculators
         </Button>
-        
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Mulch Calculator</h1>
-            <p className="text-gray-600">Calculate the amount of mulch needed for your landscaping project</p>
-          </div>
-
-          <Card className="p-6 mb-6">
+        <Card>
+          <CardHeader className="text-center">
+            <div className="mx-auto w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
+              <svg
+                className="h-6 w-6 text-emerald-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 7h16"
+                />
+              </svg>
+            </div>
+            <CardTitle className="text-2xl font-bold">Mulch Calculator</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
             <div className="grid gap-4">
               <CalculatorInput
                 label="Length"
@@ -86,21 +102,21 @@ const MulchCalculator = () => {
                 onUnitChange={setDepthUnit}
               />
             </div>
-          </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CalculatorResult
-              label="Mulch Needed (Cubic Yards)"
-              value={calculateCubicYards()}
-              unit="yd³"
-            />
-            <CalculatorResult
-              label="Mulch Needed (Cubic Feet)"
-              value={calculateCubicFeet()}
-              unit="ft³"
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CalculatorResult
+                label="Mulch Needed (Cubic Yards)"
+                value={calculateCubicYards()}
+                unit="yd³"
+              />
+              <CalculatorResult
+                label="Mulch Needed (Cubic Feet)"
+                value={calculateCubicFeet()}
+                unit="ft³"
+              />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
