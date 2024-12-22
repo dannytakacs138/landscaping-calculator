@@ -9,6 +9,7 @@ import RetainingWallCalculator from "./pages/RetainingWallCalculator";
 import GrassSeedCalculator from "./pages/GrassSeedCalculator";
 import SodCalculator from "./pages/SodCalculator";
 import AreaCalculator from "./pages/AreaCalculator";
+import VolumeCalculator from "./pages/VolumeCalculator";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/seed" element={<GrassSeedCalculator />} />
         <Route path="/sod" element={<SodCalculator />} />
         <Route path="/area" element={<AreaCalculator />} />
+        <Route path="/volume" element={<VolumeCalculator />} />
       </Routes>
     </Router>
   );
