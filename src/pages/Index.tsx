@@ -79,10 +79,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100">
       <div className="container mx-auto py-12 px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Landscaping Calculator</h1>
-          <p className="text-lg text-gray-600">Choose a calculator to get started</p>
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {calculators.map((calc) => (
             <CalculatorCard key={calc.path} {...calc} />
