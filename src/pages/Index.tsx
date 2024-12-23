@@ -1,22 +1,22 @@
 import { CalculatorCard } from "@/components/CalculatorCard";
 import { 
+  Mountain,
   Shovel, 
   Trees, 
   Construction, 
-  Leaf, 
-  Calculator, 
-  Box,
-  Ruler,
+  Grid,
   Blocks,
   Sprout,
-  Grid
+  Leaf,
+  Calculator,
+  Box3D
 } from "lucide-react";
 
 const calculators = [
   {
     title: "Gravel Calculator",
     description: "Calculate gravel needed for your project",
-    icon: <Box />,
+    icon: <Mountain />,
     path: "/gravel"
   },
   {
@@ -70,7 +70,7 @@ const calculators = [
   {
     title: "Volume Calculator",
     description: "Calculate volume measurements",
-    icon: <Ruler />,
+    icon: <Box3D />,
     path: "/volume"
   }
 ];
