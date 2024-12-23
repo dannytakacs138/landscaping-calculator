@@ -9,7 +9,7 @@ import {
   Sprout,
   Leaf,
   Calculator,
-  Box3D
+  Box
 } from "lucide-react";
 
 const calculators = [
@@ -70,7 +70,7 @@ const calculators = [
   {
     title: "Volume Calculator",
     description: "Calculate volume measurements",
-    icon: <Box3D />,
+    icon: <Box />,
     path: "/volume"
   }
 ];
