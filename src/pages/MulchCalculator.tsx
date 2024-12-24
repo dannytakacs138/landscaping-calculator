@@ -6,38 +6,45 @@ import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
 import { convertToFeet } from "@/utils/unitConversions";
+import { ShapeSelector } from "@/components/gravel/ShapeSelector";
 
 const MulchCalculator = () => {
   const navigate = useNavigate();
+  const [shape, setShape] = useState("rectangular");
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
+  const [radius, setRadius] = useState("");
   const [depth, setDepth] = useState("");
   const [lengthUnit, setLengthUnit] = useState("feet");
   const [widthUnit, setWidthUnit] = useState("feet");
+  const [radiusUnit, setRadiusUnit] = useState("feet");
   const [depthUnit, setDepthUnit] = useState("inches");
 
+  const calculateArea = () => {
+    if (shape === "rectangular") {
+      const l = convertToFeet(parseFloat(length), lengthUnit as any);
+      const w = convertToFeet(parseFloat(width), widthUnit as any);
+      return isNaN(l) || isNaN(w) ? 0 : l * w;
+    } else {
+      const r = convertToFeet(parseFloat(radius), radiusUnit as any);
+      return isNaN(r) ? 0 : Math.PI * r * r;
+    }
+  };
+
   const calculateCubicYards = () => {
-    const l = convertToFeet(parseFloat(length), lengthUnit as any);
-    const w = convertToFeet(parseFloat(width), widthUnit as any);
+    const area = calculateArea();
     const d = convertToFeet(parseFloat(depth), depthUnit as any);
-    
-    if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
-    
-    return (l * w * d) / 27;
+    return isNaN(d) ? 0 : (area * d) / 27;
   };
 
   const calculateCubicFeet = () => {
-    const l = convertToFeet(parseFloat(length), lengthUnit as any);
-    const w = convertToFeet(parseFloat(width), widthUnit as any);
+    const area = calculateArea();
     const d = convertToFeet(parseFloat(depth), depthUnit as any);
-    
-    if (isNaN(l) || isNaN(w) || isNaN(d)) return 0;
-    
-    return l * w * d;
+    return isNaN(d) ? 0 : area * d;
   };
 
   const calculateCubicMeters = () => {
-    return calculateCubicFeet() * 0.0283168; // Convert cubic feet to cubic meters
+    return calculateCubicFeet() * 0.0283168;
   };
 
   return (
@@ -78,24 +85,39 @@ const MulchCalculator = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid gap-4">
-              <CalculatorInput
-                label="Length"
-                value={length}
-                onChange={setLength}
-                placeholder="Enter length"
-                showUnitSelect
-                selectedUnit={lengthUnit}
-                onUnitChange={setLengthUnit}
-              />
-              <CalculatorInput
-                label="Width"
-                value={width}
-                onChange={setWidth}
-                placeholder="Enter width"
-                showUnitSelect
-                selectedUnit={widthUnit}
-                onUnitChange={setWidthUnit}
-              />
+              <ShapeSelector value={shape} onValueChange={setShape} />
+              {shape === "rectangular" ? (
+                <>
+                  <CalculatorInput
+                    label="Length"
+                    value={length}
+                    onChange={setLength}
+                    placeholder="Enter length"
+                    showUnitSelect
+                    selectedUnit={lengthUnit}
+                    onUnitChange={setLengthUnit}
+                  />
+                  <CalculatorInput
+                    label="Width"
+                    value={width}
+                    onChange={setWidth}
+                    placeholder="Enter width"
+                    showUnitSelect
+                    selectedUnit={widthUnit}
+                    onUnitChange={setWidthUnit}
+                  />
+                </>
+              ) : (
+                <CalculatorInput
+                  label="Radius"
+                  value={radius}
+                  onChange={setRadius}
+                  placeholder="Enter radius"
+                  showUnitSelect
+                  selectedUnit={radiusUnit}
+                  onUnitChange={setRadiusUnit}
+                />
+              )}
               <CalculatorInput
                 label="Depth"
                 value={depth}

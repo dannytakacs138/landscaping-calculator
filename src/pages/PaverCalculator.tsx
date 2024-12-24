@@ -6,44 +6,51 @@ import { CalculatorInput } from "@/components/CalculatorInput";
 import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
 import { convertToFeet } from "@/utils/unitConversions";
+import { ShapeSelector } from "@/components/gravel/ShapeSelector";
 
 const PaverCalculator = () => {
   const navigate = useNavigate();
+  const [shape, setShape] = useState("rectangular");
   const [areaLength, setAreaLength] = useState("");
   const [areaWidth, setAreaWidth] = useState("");
+  const [radius, setRadius] = useState("");
   const [paverLength, setPaverLength] = useState("");
   const [paverWidth, setPaverWidth] = useState("");
   const [areaLengthUnit, setAreaLengthUnit] = useState("feet");
   const [areaWidthUnit, setAreaWidthUnit] = useState("feet");
+  const [radiusUnit, setRadiusUnit] = useState("feet");
   const [paverLengthUnit, setPaverLengthUnit] = useState("inches");
   const [paverWidthUnit, setPaverWidthUnit] = useState("inches");
 
+  const calculateArea = () => {
+    if (shape === "rectangular") {
+      const l = convertToFeet(parseFloat(areaLength), areaLengthUnit as any);
+      const w = convertToFeet(parseFloat(areaWidth), areaWidthUnit as any);
+      return isNaN(l) || isNaN(w) ? 0 : l * w;
+    } else {
+      const r = convertToFeet(parseFloat(radius), radiusUnit as any);
+      return isNaN(r) ? 0 : Math.PI * r * r;
+    }
+  };
+
   const calculatePaversNeeded = () => {
-    const areaL = convertToFeet(parseFloat(areaLength), areaLengthUnit as any);
-    const areaW = convertToFeet(parseFloat(areaWidth), areaWidthUnit as any);
+    const areaInSquareFeet = calculateArea();
     const paverL = convertToFeet(parseFloat(paverLength), paverLengthUnit as any);
     const paverW = convertToFeet(parseFloat(paverWidth), paverWidthUnit as any);
     
-    if (isNaN(areaL) || isNaN(areaW) || isNaN(paverL) || isNaN(paverW)) return 0;
+    if (isNaN(areaInSquareFeet) || isNaN(paverL) || isNaN(paverW)) return 0;
     if (paverL === 0 || paverW === 0) return 0;
     
-    const areaInSquareFeet = areaL * areaW;
     const paverAreaInSquareFeet = paverL * paverW;
-    
     return Math.ceil(areaInSquareFeet / paverAreaInSquareFeet);
   };
 
   const calculateAreaInSquareFeet = () => {
-    const areaL = convertToFeet(parseFloat(areaLength), areaLengthUnit as any);
-    const areaW = convertToFeet(parseFloat(areaWidth), areaWidthUnit as any);
-    
-    if (isNaN(areaL) || isNaN(areaW)) return 0;
-    
-    return areaL * areaW;
+    return calculateArea();
   };
 
   const calculateAreaInSquareMeters = () => {
-    return calculateAreaInSquareFeet() * 0.092903; // Convert square feet to square meters
+    return calculateAreaInSquareFeet() * 0.092903;
   };
 
   return (
@@ -86,24 +93,39 @@ const PaverCalculator = () => {
             <div>
               <h2 className="text-lg font-semibold mb-4">Area Dimensions</h2>
               <div className="grid gap-4">
-                <CalculatorInput
-                  label="Area Length"
-                  value={areaLength}
-                  onChange={setAreaLength}
-                  placeholder="Enter area length"
-                  showUnitSelect
-                  selectedUnit={areaLengthUnit}
-                  onUnitChange={setAreaLengthUnit}
-                />
-                <CalculatorInput
-                  label="Area Width"
-                  value={areaWidth}
-                  onChange={setAreaWidth}
-                  placeholder="Enter area width"
-                  showUnitSelect
-                  selectedUnit={areaWidthUnit}
-                  onUnitChange={setAreaWidthUnit}
-                />
+                <ShapeSelector value={shape} onValueChange={setShape} />
+                {shape === "rectangular" ? (
+                  <>
+                    <CalculatorInput
+                      label="Area Length"
+                      value={areaLength}
+                      onChange={setAreaLength}
+                      placeholder="Enter area length"
+                      showUnitSelect
+                      selectedUnit={areaLengthUnit}
+                      onUnitChange={setAreaLengthUnit}
+                    />
+                    <CalculatorInput
+                      label="Area Width"
+                      value={areaWidth}
+                      onChange={setAreaWidth}
+                      placeholder="Enter area width"
+                      showUnitSelect
+                      selectedUnit={areaWidthUnit}
+                      onUnitChange={setAreaWidthUnit}
+                    />
+                  </>
+                ) : (
+                  <CalculatorInput
+                    label="Radius"
+                    value={radius}
+                    onChange={setRadius}
+                    placeholder="Enter radius"
+                    showUnitSelect
+                    selectedUnit={radiusUnit}
+                    onUnitChange={setRadiusUnit}
+                  />
+                )}
               </div>
             </div>
 
