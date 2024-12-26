@@ -47,6 +47,11 @@ const MulchCalculator = () => {
     return calculateCubicFeet() * 0.0283168;
   };
 
+  const calculateBagsNeeded = () => {
+    const cubicFeet = calculateCubicFeet();
+    return Math.ceil(cubicFeet / 2); // Each bag contains 2 cubic feet
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
       <div className="container max-w-2xl mx-auto">
@@ -129,7 +134,7 @@ const MulchCalculator = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <CalculatorResult
                 label="Mulch Needed (Cubic Yards)"
                 value={calculateCubicYards()}
@@ -144,6 +149,11 @@ const MulchCalculator = () => {
                 label="Mulch Needed (Cubic Meters)"
                 value={calculateCubicMeters()}
                 unit="m³"
+              />
+              <CalculatorResult
+                label="Bags Needed (2 ft³ per bag)"
+                value={calculateBagsNeeded()}
+                unit="bags"
               />
             </div>
           </CardContent>
