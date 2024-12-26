@@ -2,11 +2,10 @@ import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalculatorInput } from "@/components/CalculatorInput";
-import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
 import { convertToFeet } from "@/utils/unitConversions";
-import { ShapeSelector } from "@/components/gravel/ShapeSelector";
+import { SoilInputs } from "@/components/soil/SoilInputs";
+import { SoilResults } from "@/components/soil/SoilResults";
 
 const SoilCalculator = () => {
   const navigate = useNavigate();
@@ -31,16 +30,14 @@ const SoilCalculator = () => {
     }
   };
 
-  const calculateCubicYards = () => {
-    const area = calculateArea();
-    const d = convertToFeet(parseFloat(depth), depthUnit as any);
-    return isNaN(d) ? 0 : (area * d) / 27;
-  };
-
   const calculateCubicFeet = () => {
     const area = calculateArea();
     const d = convertToFeet(parseFloat(depth), depthUnit as any);
     return isNaN(d) ? 0 : area * d;
+  };
+
+  const calculateCubicYards = () => {
+    return calculateCubicFeet() / 27;
   };
 
   const calculateCubicMeters = () => {
@@ -89,73 +86,32 @@ const SoilCalculator = () => {
             <CardTitle className="text-2xl font-bold">Soil Calculator</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid gap-4">
-              <ShapeSelector value={shape} onValueChange={setShape} />
-              {shape === "rectangular" ? (
-                <>
-                  <CalculatorInput
-                    label="Length"
-                    value={length}
-                    onChange={setLength}
-                    placeholder="Enter length"
-                    showUnitSelect
-                    selectedUnit={lengthUnit}
-                    onUnitChange={setLengthUnit}
-                  />
-                  <CalculatorInput
-                    label="Width"
-                    value={width}
-                    onChange={setWidth}
-                    placeholder="Enter width"
-                    showUnitSelect
-                    selectedUnit={widthUnit}
-                    onUnitChange={setWidthUnit}
-                  />
-                </>
-              ) : (
-                <CalculatorInput
-                  label="Radius"
-                  value={radius}
-                  onChange={setRadius}
-                  placeholder="Enter radius"
-                  showUnitSelect
-                  selectedUnit={radiusUnit}
-                  onUnitChange={setRadiusUnit}
-                />
-              )}
-              <CalculatorInput
-                label="Depth"
-                value={depth}
-                onChange={setDepth}
-                placeholder="Enter depth"
-                showUnitSelect
-                selectedUnit={depthUnit}
-                onUnitChange={setDepthUnit}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <CalculatorResult
-                label="Soil Needed (Cubic Yards)"
-                value={calculateCubicYards()}
-                unit="yd³"
-              />
-              <CalculatorResult
-                label="Soil Needed (Cubic Feet)"
-                value={calculateCubicFeet()}
-                unit="ft³"
-              />
-              <CalculatorResult
-                label="Soil Needed (Cubic Meters)"
-                value={calculateCubicMeters()}
-                unit="m³"
-              />
-              <CalculatorResult
-                label="Bags Needed (0.75 ft³ per bag)"
-                value={calculateBagsNeeded()}
-                unit="bags"
-              />
-            </div>
+            <SoilInputs
+              shape={shape}
+              setShape={setShape}
+              length={length}
+              setLength={setLength}
+              width={width}
+              setWidth={setWidth}
+              radius={radius}
+              setRadius={setRadius}
+              depth={depth}
+              setDepth={setDepth}
+              lengthUnit={lengthUnit}
+              setLengthUnit={setLengthUnit}
+              widthUnit={widthUnit}
+              setWidthUnit={setWidthUnit}
+              radiusUnit={radiusUnit}
+              setRadiusUnit={setRadiusUnit}
+              depthUnit={depthUnit}
+              setDepthUnit={setDepthUnit}
+            />
+            <SoilResults
+              cubicYards={calculateCubicYards()}
+              cubicFeet={calculateCubicFeet()}
+              cubicMeters={calculateCubicMeters()}
+              bagsNeeded={calculateBagsNeeded()}
+            />
           </CardContent>
         </Card>
       </div>
