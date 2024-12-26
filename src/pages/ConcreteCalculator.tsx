@@ -3,10 +3,10 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalculatorInput } from "@/components/CalculatorInput";
-import { CalculatorResult } from "@/components/CalculatorResult";
 import { useNavigate } from "react-router-dom";
 import { convertToFeet } from "@/utils/unitConversions";
 import { ShapeSelector } from "@/components/gravel/ShapeSelector";
+import { ConcreteResults } from "@/components/concrete/ConcreteResults";
 
 const ConcreteCalculator = () => {
   const navigate = useNavigate();
@@ -45,6 +45,18 @@ const ConcreteCalculator = () => {
 
   const calculateCubicMeters = () => {
     return calculateCubicFeet() * 0.0283168;
+  };
+
+  const calculate40lbBags = () => {
+    return Math.ceil(calculateCubicFeet() / 0.3);
+  };
+
+  const calculate60lbBags = () => {
+    return Math.ceil(calculateCubicFeet() / 0.45);
+  };
+
+  const calculate80lbBags = () => {
+    return Math.ceil(calculateCubicFeet() / 0.6);
   };
 
   return (
@@ -123,23 +135,14 @@ const ConcreteCalculator = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <CalculatorResult
-                label="Concrete Needed (Cubic Yards)"
-                value={calculateCubicYards()}
-                unit="yd³"
-              />
-              <CalculatorResult
-                label="Concrete Needed (Cubic Feet)"
-                value={calculateCubicFeet()}
-                unit="ft³"
-              />
-              <CalculatorResult
-                label="Concrete Needed (Cubic Meters)"
-                value={calculateCubicMeters()}
-                unit="m³"
-              />
-            </div>
+            <ConcreteResults
+              cubicYards={calculateCubicYards()}
+              cubicFeet={calculateCubicFeet()}
+              cubicMeters={calculateCubicMeters()}
+              bags40lb={calculate40lbBags()}
+              bags60lb={calculate60lbBags()}
+              bags80lb={calculate80lbBags()}
+            />
           </CardContent>
         </Card>
       </div>
