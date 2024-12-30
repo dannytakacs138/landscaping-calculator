@@ -14,7 +14,7 @@ const RetainingWallCalculator = () => {
   const [thickness, setThickness] = useState("");
   const [lengthUnit, setLengthUnit] = useState("feet");
   const [heightUnit, setHeightUnit] = useState("feet");
-  const [thicknessUnit, setThicknessUnit] = useState("feet");
+  const [thicknessUnit, setThicknessUnit] = useState("inches");
 
   const totalBlocks = !isNaN(parseFloat(length)) && 
                      !isNaN(parseFloat(height)) && 
